@@ -26,9 +26,11 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
+//NettyServer类继承AbstractRpcServer类
 public class NettyServer extends AbstractRpcServer {
 
     private final CommonSerializer serializer;
+
     public NettyServer(String host,int port){
         this(host,port,DEFAULT_SERIALIZER);
     }
@@ -44,6 +46,7 @@ public class NettyServer extends AbstractRpcServer {
 
     @Override
     public void start(){
+        //服务端启动
         ShutdownHook.getShutdownHook().addClearAllHook();
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -67,6 +70,7 @@ public class NettyServer extends AbstractRpcServer {
                         }
                     });
             ChannelFuture future = serverBootstrap.bind(port).sync();
+            //等待服务关闭
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             logger.error("something wrong when starting server:",e);

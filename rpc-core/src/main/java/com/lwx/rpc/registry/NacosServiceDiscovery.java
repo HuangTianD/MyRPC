@@ -12,8 +12,9 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 public class NacosServiceDiscovery implements ServiceDiscovery{
+    //服务获取
     private static final Logger logger = LoggerFactory.getLogger(NacosServiceDiscovery.class);
-
+    //负载均衡策略
     private final LoadBalancer loadBalancer;
 
     public NacosServiceDiscovery(LoadBalancer loadBalancer){
@@ -23,6 +24,7 @@ public class NacosServiceDiscovery implements ServiceDiscovery{
 
     @Override
     public InetSocketAddress lookupService(String serviceName){
+        //通过负载均衡算法，找出适用的服务
         try{
             List<Instance> instances = NacosUtil.getAllInstance(serviceName);
             Instance instance = loadBalancer.select(instances);

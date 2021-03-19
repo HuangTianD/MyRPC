@@ -15,6 +15,7 @@ import java.util.jar.JarFile;
 public class ReflectUtil {
     public static String getStackTrace(){
         StackTraceElement[] stack = new Throwable().getStackTrace();
+        //获取栈底类名，即为启动的服务器的类名
         return stack[stack.length-1].getClassName();
     }
 

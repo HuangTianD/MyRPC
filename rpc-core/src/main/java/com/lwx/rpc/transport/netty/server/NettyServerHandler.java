@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutorService;
 public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger logger  = LoggerFactory.getLogger(NettyServerHandler.class);
+
     private static RequestHandler requestHandler;
     private static final String THREAD_NAME_PREFIX = "netty-server-handler";
     private static final ExecutorService threadPool;
@@ -32,6 +33,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> 
     protected void channelRead0(ChannelHandlerContext ctx,RpcRequest msg) throws Exception{
         try{
             logger.info("server get request:{}",msg);
+            //调用方法，获取结果，写入channel
             Object result = requestHandler.handle(msg);
             ChannelFuture future = ctx.writeAndFlush(RpcResponse.success(result,msg.getRequestId()));
             future.addListener(ChannelFutureListener.CLOSE);

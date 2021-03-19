@@ -15,6 +15,7 @@ public class ShutdownHook {
     public static ShutdownHook getShutdownHook(){return shutdownHook;}
 
     public void addClearAllHook(){
+        //当jvm关闭时，注销nacos所有服务，关闭线程池中所有线程
         logger.info("clear all service after shutdown");
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             NacosUtil.clearRegistry();

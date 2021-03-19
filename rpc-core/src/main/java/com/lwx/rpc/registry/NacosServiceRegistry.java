@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 public class NacosServiceRegistry implements ServiceRegistry{
+    //服务注册
     private static final Logger logger = LoggerFactory.getLogger(NacosServiceRegistry.class);
 
     @Override

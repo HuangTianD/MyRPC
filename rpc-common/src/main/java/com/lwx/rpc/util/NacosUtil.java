@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+//使用Nacos的工具类
 public class NacosUtil {
     private static final Logger logger = LoggerFactory.getLogger(NacosUtil.class);
 
@@ -29,6 +30,7 @@ public class NacosUtil {
     }
 
     public static NamingService getNacosNamingServive(){
+        //创建一个NacosNameingService
         try{
             return NamingFactory.createNamingService(SERVER_ADDR);
         }catch(NacosException e){
@@ -38,16 +40,19 @@ public class NacosUtil {
     }
 
     public static void registerService(String serviceName,InetSocketAddress address) throws NacosException{
+        //向Nacos注册中心注册服务
         namingService.registerInstance(serviceName,address.getHostName(),address.getPort());
         NacosUtil.address = address;
         serviceNames.add(serviceName);
     }
 
     public static List<Instance> getAllInstance(String serviceName) throws NacosException{
+        //获取实例列表
         return namingService.getAllInstances(serviceName);
     }
 
     public static void clearRegistry(){
+        //清除注册信息
         if(!serviceNames.isEmpty()&&address!=null){
             String host = address.getHostName();
             int port = address.getPort();
@@ -57,7 +62,7 @@ public class NacosUtil {
                 try {
                     namingService.deregisterInstance(serviceName, host, port);
                 } catch (NacosException e) {
-                    logger.error("error when registering service:", serviceName, e);
+                    logger.error("error when deregistering service:", serviceName, e);
                 }
             }
         }
