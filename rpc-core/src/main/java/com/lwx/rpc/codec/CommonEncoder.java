@@ -8,7 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 
-
+//编码器
 public class CommonEncoder extends MessageToByteEncoder {
     private static final int MAGIC_NUMBER = 0xCAFEBABE;
     private final CommonSerializer serializer;

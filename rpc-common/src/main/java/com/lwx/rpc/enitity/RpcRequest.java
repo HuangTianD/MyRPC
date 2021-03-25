@@ -9,6 +9,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+/*
+    rpc服务端向客户端请求服务的格式
+ */
 public class RpcRequest implements Serializable {
 
     private String requestId;

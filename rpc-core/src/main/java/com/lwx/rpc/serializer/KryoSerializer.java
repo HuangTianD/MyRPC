@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-
+//kyro编码器
 public class KryoSerializer implements CommonSerializer{
     private static final Logger logger = LoggerFactory.getLogger(KryoSerializer.class);
 
@@ -34,7 +34,6 @@ public class KryoSerializer implements CommonSerializer{
             return output.toBytes();
         }catch(Exception e){
             logger.error("error when kryo serialize:",e);
-            //throw new SerializeException("error when serialize");
         }
         return null;
     }

@@ -28,6 +28,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<RpcResponse>
     protected void channelRead0(ChannelHandlerContext ctx,RpcResponse msg) throws Exception{
         try{
             logger.info(String.format("client get message:%s",msg));
+            //处理请求
             unprocessedRequests.complete(msg);
         }finally{
             ReferenceCountUtil.release(msg);
@@ -42,6 +43,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<RpcResponse>
     }
 
     @Override
+    //心跳
     public void userEventTriggered(ChannelHandlerContext ctx,Object evt) throws Exception{
         if(evt instanceof IdleStateEvent){
             IdleState state = ((IdleStateEvent) evt).state();

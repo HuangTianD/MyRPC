@@ -6,6 +6,7 @@ import com.lwx.rpc.enitity.RpcResponse;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
+//用于记录请求的完成情况及其对应的请求id
 public class UnprocessedRequests {
     private static ConcurrentHashMap<String, CompletableFuture<RpcResponse>> unprocessedResponseFutures = new ConcurrentHashMap<>();
 

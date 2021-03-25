@@ -17,6 +17,7 @@ public class RpcMessageChecker {
     }
 
     public static void check(RpcRequest rpcRequest,RpcResponse rpcResponse) {
+        //检查请求与回复是否对应，请求是否成功
         if(rpcResponse == null){
             logger.error("invoke service {} fail:",rpcRequest.getInterfaceName());
             throw new RpcException(RpcError.SERVICE_INVOCATION_FAILURE,INTERFACE_NAME+":"+rpcRequest.getInterfaceName());

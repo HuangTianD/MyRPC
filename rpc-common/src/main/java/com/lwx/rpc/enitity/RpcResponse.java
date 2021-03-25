@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
+//rpc服务端向客户端回应的格式，分为成功和失败两种状态
 public class RpcResponse<T> implements Serializable {
     private String requestId;
     private Integer statusCode;

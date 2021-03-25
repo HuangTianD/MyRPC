@@ -11,10 +11,13 @@ import com.lwx.rpc.serializer.ProtobufSerializer;
 
 public class NettyTestClient {
     public static void main(String[] args) {
+        //建立客户端，传入序列器
         RpcClient client = new NettyClient(CommonSerializer.PROTOBUF_SERIALIZER);
+        //动态代理
         RpcClientProxy rpcClientProxy = new RpcClientProxy(client);
         HelloService helloService = rpcClientProxy.getProxy(HelloService.class);
         HelloObject object = new HelloObject(12, "This is a message");
+        //调用动态代理示例的invoke方法
         String res = helloService.hello(object);
         System.out.println(res);
         ByeService byeService = rpcClientProxy.getProxy(ByeService.class);

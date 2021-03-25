@@ -8,9 +8,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public class ThreadPoolFactory {
-    /**
-     * 线程池参数
-     */
+    //线程池参数
     private static final int CORE_POOL_SIZE = 10;
     private static final int MAXIMUM_POOL_SIZE_SIZE = 100;
     private static final int KEEP_ALIVE_TIME = 1;
@@ -62,10 +60,6 @@ public class ThreadPoolFactory {
 
     /**
      * 创建 ThreadFactory 。如果threadNamePrefix不为空则使用自建ThreadFactory，否则使用defaultThreadFactory
-     *
-     * @param threadNamePrefix 作为创建的线程名字的前缀
-     * @param daemon           指定是否为 Daemon Thread(守护线程)
-     * @return ThreadFactory
      */
     private static ThreadFactory createThreadFactory(String threadNamePrefix, Boolean daemon) {
         if (threadNamePrefix != null) {

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 
-
+//属于inhandler，当有rpcrequest进入channel的时候，首先被decode，然后就传入这里进行处理
 public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger logger  = LoggerFactory.getLogger(NettyServerHandler.class);

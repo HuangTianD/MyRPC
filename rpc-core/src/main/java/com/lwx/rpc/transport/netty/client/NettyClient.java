@@ -5,26 +5,21 @@ import com.lwx.rpc.loadbalancer.LoadBalancer;
 import com.lwx.rpc.loadbalancer.RandomLoadBalancer;
 import com.lwx.rpc.registry.NacosServiceDiscovery;
 import com.lwx.rpc.registry.ServiceDiscovery;
+import com.lwx.rpc.serializer.CommonSerializer;
 import com.lwx.rpc.transport.RpcClient;
 import com.lwx.rpc.enitity.RpcRequest;
 import com.lwx.rpc.enitity.RpcResponse;
 import com.lwx.rpc.enumeration.RpcError;
 import com.lwx.rpc.exception.RpcException;
-import com.lwx.rpc.registry.NacosServiceRegistry;
-import com.lwx.rpc.registry.ServiceRegistry;
-import com.lwx.rpc.serializer.CommonSerializer;
-import com.lwx.rpc.util.RpcMessageChecker;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class NettyClient implements RpcClient {
     private static final Logger logger = LoggerFactory.getLogger(NettyClient.class);
@@ -34,20 +29,24 @@ public class NettyClient implements RpcClient {
     private static final EventLoopGroup group;
 
     static{
+        //netty客户端配置
         group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE,true);
     }
+    //
     private final UnprocessedRequests unprocessedRequests;
 
     public NettyClient(){this(DEFAULT_SERIALIZER,new RandomLoadBalancer());}
     public NettyClient(LoadBalancer loadBalancer){this(DEFAULT_SERIALIZER,loadBalancer);}
     public NettyClient(Integer serializer){this(serializer,new RandomLoadBalancer());}
     public NettyClient(Integer serializer,LoadBalancer loadBalancer){
+        //服务发现，通过负载均衡算法选取合适的服务
         this.serviceDiscovery = new NacosServiceDiscovery(loadBalancer);
         this.serializer = CommonSerializer.getByCode(serializer);
+        //用uncompletabelfuture保存已发送的请求
         this.unprocessedRequests = SingletonFactory.getInstance(UnprocessedRequests.class);
     }
 
@@ -65,6 +64,7 @@ public class NettyClient implements RpcClient {
                 group.shutdownGracefully();
                 return null;
             }
+            //发送请求并监听，使用unprocessedRequsets储存已发送过的请求及其对应的返回
             unprocessedRequests.put(rpcRequest.getRequestId(),resultFuture);
             channel.writeAndFlush(rpcRequest).addListener(((ChannelFutureListener)future1->{
                 if(future1.isSuccess()){

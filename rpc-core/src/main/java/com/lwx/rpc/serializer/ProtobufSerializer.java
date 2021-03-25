@@ -12,10 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * 使用ProtoBuf的序列化器
- * @author ziyang
- */
+//ProtoBuf序列化器
+
 public class ProtobufSerializer implements CommonSerializer {
 
     private LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);

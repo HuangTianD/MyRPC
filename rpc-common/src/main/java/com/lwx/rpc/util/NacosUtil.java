@@ -62,7 +62,7 @@ public class NacosUtil {
                 try {
                     namingService.deregisterInstance(serviceName, host, port);
                 } catch (NacosException e) {
-                    logger.error("error when deregistering service:", serviceName, e);
+                    logger.error("error when clearing registeried service:", serviceName, e);
                 }
             }
         }

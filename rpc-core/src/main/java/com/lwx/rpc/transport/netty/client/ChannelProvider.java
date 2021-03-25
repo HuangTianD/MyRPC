@@ -28,6 +28,7 @@ public class ChannelProvider {
 
 
     public static Channel get(InetSocketAddress inetSocketAddress, CommonSerializer serializer) throws InterruptedException{
+        //获取对应地址的channel
         String key = inetSocketAddress.toString()+serializer.getCode();
         if(channels.containsKey(key)){
             Channel channel = channels.get(key);
@@ -60,6 +61,7 @@ public class ChannelProvider {
     }
 
     private static Channel connect(Bootstrap bootstrap,InetSocketAddress inetSocketAddress) throws ExecutionException,InterruptedException{
+        //连接目标地址，使用监听器监听channel内处理情况
         CompletableFuture<Channel> completableFuture = new CompletableFuture<>();
         bootstrap.connect(inetSocketAddress).addListener((ChannelFutureListener) future->{
             if(future.isSuccess()){
